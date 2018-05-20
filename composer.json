@@ -1,5 +1,5 @@
 {
-	"name" : "kairos/configuration",
+	"name" : "kairos-project/configuration",
 	"description" : "A processor system for configuration structure",
 	"type" : "library",
 	"require-dev" : {
