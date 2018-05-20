@@ -41,6 +41,9 @@ trait DefaultValueTraitTest
      */
     public function testHasDefaultValue()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'hasDefaultValue'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $reflex = new \ReflectionProperty(Configuration::class, 'hasDefault');
@@ -89,6 +92,9 @@ trait DefaultValueTraitTest
      */
     public function testGetDefaultValue($value)
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'getDefaultValue'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $reflex = new \ReflectionProperty(Configuration::class, 'defaultValue');
@@ -139,6 +145,9 @@ trait DefaultValueTraitTest
      */
     public function testRemoveDefaultValue($value)
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'removeDefaultValue'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
         $instance->setDefaultValue($value);
 

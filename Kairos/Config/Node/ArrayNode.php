@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace Kairos\Config\Node;
 
 use Kairos\Config\Configuration;
+use Kairos\Config\Exception\MissingElementException;
+use Kairos\Config\Exception\NestedException;
 
 /**
  * Array node
@@ -32,6 +34,43 @@ use Kairos\Config\Configuration;
 class ArrayNode extends Configuration
 {
     /**
+     * Is prototype
+     *
+     * Indicate if the current array node is a prototype
+     *
+     * @var bool
+     */
+    private $isPrototype = false;
+
+    /**
+     * Set prototype
+     *
+     * Set the prototype state of the node
+     *
+     * @param bool $isPrototype The prototype state of the node
+     *
+     * @return $this
+     */
+    public function setPrototype(bool $isPrototype) : ArrayNode
+    {
+        $this->isPrototype = $isPrototype;
+
+        return $this;
+    }
+
+    /**
+     * Is prototype
+     *
+     * Return the prototype state of the current element
+     *
+     * @return bool
+     */
+    public function isPrototype() : bool
+    {
+        return $this->isPrototype;
+    }
+
+    /**
      * Construct
      *
      * The default ArrayNode constructor
@@ -41,5 +80,30 @@ class ArrayNode extends Configuration
     public function __construct()
     {
         $this->addAllowedType('array');
+    }
+
+    /**
+     * Process
+     *
+     * Process the given configuration
+     *
+     * @param mixed $element The configuration element to process
+     *
+     * @throws MissingElementException In case of missing required child
+     * @throws NestedException In case of child process exception
+     *
+     * @return mixed
+     */
+    public function process($element)
+    {
+        if ($this->isPrototype) {
+            foreach ($element as $elementKey => $elementValue) {
+                $element[$elementKey] = parent::process($elementValue);
+            }
+
+            return $element;
+        }
+
+        return parent::process($element);
     }
 }

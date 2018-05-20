@@ -41,6 +41,9 @@ trait AllowedTypesTraitTest
      */
     public function testGetAllowedTypes()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'getAllowedTypes'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $this->getTestCase()->assertTrue(is_array($instance->getAllowedTypes()));
@@ -85,6 +88,9 @@ trait AllowedTypesTraitTest
      */
     public function testSetAllowedTypes(array $types)
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'setAllowedTypes'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $reflex = new \ReflectionProperty(Configuration::class, 'allowedTypes');
@@ -134,6 +140,9 @@ trait AllowedTypesTraitTest
      */
     public function testAddAllowedType()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'addAllowedType'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $reflex = new \ReflectionProperty(Configuration::class, 'allowedTypes');
@@ -168,6 +177,9 @@ trait AllowedTypesTraitTest
      */
     public function testRemoveAllowedType(Configuration $configuration)
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'removeAllowedType'));
+        $this->assertTrue($method->isPublic());
+
         $reflex = new \ReflectionProperty(Configuration::class, 'allowedTypes');
         $reflex->setAccessible(true);
 

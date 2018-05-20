@@ -41,6 +41,9 @@ trait RequirementTraitTest
      */
     public function testIsRequired()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'isRequired'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $this->getTestCase()->assertFalse($instance->isRequired());
@@ -62,6 +65,9 @@ trait RequirementTraitTest
      */
     public function testSetRequired()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'setRequired'));
+        $this->assertTrue($method->isPublic());
+
         $instance = new Configuration();
 
         $reflex = new \ReflectionProperty(Configuration::class, 'isRequired');

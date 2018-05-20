@@ -66,6 +66,10 @@ class Configuration
         $this->validateType($element);
         $element = $this->validate($element);
 
+        if (is_array($element) && !empty($this->childrens)) {
+            $this->validateKeys($element);
+        }
+
         foreach ($this->childrens as $childKey => $childValue) {
             $childElement = $this->getElementValue($element, $childKey, $childValue);
 
@@ -89,6 +93,28 @@ class Configuration
         }
 
         return $element;
+    }
+
+    /**
+     * Validate key
+     *
+     * Validate the elements keys to be allowed
+     *
+     * @param array $elements The element to valudate
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @return void
+     */
+    private function validateKeys(array $elements) : void
+    {
+        foreach (array_keys($elements) as $key) {
+            if ($this->getChild($key) === null) {
+                throw new \UnexpectedValueException(sprintf('key "%s" does not exist', $key));
+            }
+        }
+
+        return;
     }
 
     /**

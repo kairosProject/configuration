@@ -51,6 +51,30 @@ class ConfigurationTest extends TestCase
         TestTrait\ValidationTraitTest;
 
     /**
+     * Test definition
+     *
+     * Validate the Kairos\Config\Configurationmethods in case of undeclared element
+     *
+     * @return void
+     */
+    public function testDefinition()
+    {
+        $simpleArray = new RootNode();
+        $this->assertSame(
+            ['element' => true, 'test' => 'testValue'],
+            $simpleArray->process(['element' => true, 'test' => 'testValue'])
+        );
+
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('key "element" does not exist');
+
+        $instance = new RootNode();
+        $instance->addChild('test', new StringNode());
+
+        $instance->process(['element' => true, 'test' => 'testValue']);
+    }
+
+    /**
      * Test process nested error
      *
      * Validate the Kairos\Config\Configurationmethods
@@ -113,6 +137,9 @@ class ConfigurationTest extends TestCase
      */
     public function testDefault()
     {
+        $method = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, 'setDefaultValue'));
+        $this->assertTrue($method->isPublic());
+
         $root = new RootNode();
         $child = new StringNode();
         $child->setDefaultValue('testValue');
@@ -186,6 +213,11 @@ class ConfigurationTest extends TestCase
      */
     public function testConfiguration()
     {
+        foreach (['getPath', 'getRoot', 'addChild', 'getChild'] as $method) {
+            $methodRelfex = new \ReflectionMethod(sprintf('%s::%s', Configuration::class, $method));
+            $this->assertTrue($methodRelfex->isPublic());
+        }
+
         $base = [
             'process' => [
                 'name' => 'nom',
